@@ -6,7 +6,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/nlpannotator-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/nlpannotator-{{ version }}.tar.gz
   sha256: 23b87fe3c507fb61f43193ca61e89c48423e38f248e49ae30880ec907b37204d
 
 build:
@@ -15,15 +15,15 @@ build:
     - treetagger_install = nlpannotator.install_treetagger:install_tagger
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 0
+  number: 1
 
 requirements:
   host:
-    - python >=3.7,<4
+    - python {{ python_min }}
     - setuptools >=61
     - pip
   run:
-    - python >=3.7,<4
+    - python >={{ python_min }},<4
     - spacy <3.5.0,>=3.4.0
     - stanza <=1.4.0
     - python-flair <=0.11.3
@@ -39,6 +39,7 @@ test:
     - treetagger_install --help
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   summary: Annotator combining different NLP pipelines
